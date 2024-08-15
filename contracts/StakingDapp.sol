@@ -600,7 +600,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
     struct Notification {
         uint256 poolID;
         uint256 amount;
-        uint256 user;
+        address user;
         string typeOf;
         uint256 timestamp;
     }
@@ -637,7 +637,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
         poolCount++;
     }
 
-    function deposit(uint _pid, uint _amount) public noReentrant {
+    function deposit(uint _pid, uint _amount) public nonReentrant {
         //we want to set the minimu the user can deposit
         require(_amount > 0, "Amount should be greater than 0!");
         //first is to get the pool one wants to deposit in
@@ -647,7 +647,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
         //check if user has deposited before
         if (user.amount > 0) {
             uint pending = _calcPendingReward(user, _pid);
-            pool.reward.transfer(msg.sender, pending);
+            pool.rewardToken.transfer(msg.sender, pending);
 
             _createNotification(_pid, pending, msg.sender, "Claim");
         }
@@ -666,7 +666,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
         _createNotification(_pid, _amount, msg.sender, "Deposit");
     }
 
-    function withdraw(uint _pid, uint _amount) public noReentrant {
+    function withdraw(uint _pid, uint _amount) public nonReentrant {
         //first is to get the pool one wants to deposit in
         PoolInfo storage pool = poolInfo[_pid];
         //get the User with the id and address from the nested mapping
@@ -682,15 +682,15 @@ contract StakingDapp is Ownable, ReentrancyGuard {
         uint256 pending = _calcPendingReward(user, _pid);
 
         if (user.amount > 0) {
-            pool.reward.transfer(msg.sender, pending);
+            pool.rewardToken.transfer(msg.sender, pending);
 
             _createNotification(_pid, pending, msg.sender, "Claim");
         }
 
         if (_amount > 0) {
-            user.amount -= amount;
-            pool.depositedAmount -= amount;
-            depositedTokens[address(pool.depositToken)] -= amount;
+            user.amount -= _amount;
+            pool.depositedAmount -= _amount;
+            depositedTokens[address(pool.depositToken)] -= _amount;
 
             pool.depositToken.transfer(msg.sender, _amount);
         }
@@ -703,7 +703,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
     function _calcPendingReward(
         UserInfo storage user,
         uint _pid
-    ) internal view returns (uint245) {
+    ) internal view returns (uint256) {
         PoolInfo storage pool = poolInfo[_pid];
 
         // uint daysPassed = (block.timestamp - user.lastRewardAt)/86400; for one day but we will use 1 minutes for learning purpose
@@ -719,7 +719,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
         uint _pid,
         address _user
     ) public view returns (uint) {
-        UserInfo storage user = userInfo[_user][msg.sender];
+        UserInfo storage user = userInfo[_pid][msg.sender];
 
         return _calcPendingReward(user, _pid);
     }
@@ -734,7 +734,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
             "Can't withdraw deposited tokens"
         ); //check to be able to widtdraw deposited tokens.
 
-        IERC20(token).safeTransfer(msg.msg.sender, amount);
+        IERC20(token).safeTransfer(msg.sender, amount);
     }
 
     function modifyPool(uint _pid, uint _apy) public onlyOwner {
@@ -757,7 +757,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
 
         pool.rewardToken.transfer(msg.sender, pending);
 
-        _createNotification(_pid, _amount, msg.sender, "Claim");
+        _createNotification(_pid, pending, msg.sender, "Claim");
     }
 
     function _createNotification(
