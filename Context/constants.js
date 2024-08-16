@@ -72,7 +72,18 @@ export const ERC20 = async (address, userAddress) => {
     const token = {
       name: await contractReader.name(),
       symbol: await contractReader.symbol(),
-      address: await contractReader,
+      address: await contractReader.address,
+      totalSupply: toETH(await contractReader.totalSupply()),
+      balance: await toEth(contractReader.balanceOf(userAddress)),
+      contractTokenBalance: toETH(
+        await contractReader.balanceOf(STAKING_DAPP_ADDRESS)
+      ),
     };
+
+    return token;
   }
 };
+
+//TOKEN ICO CONTRACT
+
+export const LOAD_TOKEN_ICO = async () => {};
