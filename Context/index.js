@@ -207,4 +207,55 @@ export async function deposit(poolID, amount, address) {
   }
 }
 
-export async function transferToken(amount, transfer, address) {}
+export async function transferToken(amount, transferAddresss) {
+  try {
+    notifySuccess("calling contract token ...");
+    //transfer from tokenObject
+    const stakingTokenObj = await tokenContract();
+    //if you want to make the transfer dynamic, we have to work on the tokenContract object and
+    //dynamically pass different contract address in the
+    // const contractReader = new ethers.Contract(
+    //     Dynamic token addresss here,
+    //     CustomTokenABI.abi,
+    //     signer
+    //   );
+
+    const transferAmount = ethers.utils.parseEther(amount);
+
+    const approveTx = await stakingTokenObj.transfer(
+      transferAddresss,
+      transferAmount
+    );
+
+    await approveTx.wait();
+
+    notifySuccess("token transfered successfully");
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+}
+
+export async function widthdraw(poolID, amount) {
+  try {
+    notifySuccess("calling contract");
+    const amountInWei = ethers.utils.parseUnits(amount.toString(), 18);
+    //widthdraw from contract oject//staking contract
+    const contractObj = await contract();
+
+    //estimate widthdrawal gas
+    const gasEstimation = await contractObj.gasEstimation.widthdraw(
+      Number(poolID),
+      amountInWei
+    );
+
+    const data = await contractObj.widthdraw;
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+}
