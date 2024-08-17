@@ -251,7 +251,14 @@ export async function widthdraw(poolID, amount) {
       amountInWei
     );
 
-    const data = await contractObj.widthdraw;
+    const data = await contractObj.widthdraw(Number(poolID), amountInWei, {
+      gasLimit: gasEstimation,
+    });
+
+    const receipt = await data.wait();
+    notifySuccess("transaction successfully completed");
+
+    return receipt;
   } catch (error) {
     console.log(error);
 
