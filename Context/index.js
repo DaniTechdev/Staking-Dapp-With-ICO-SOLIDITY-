@@ -116,10 +116,24 @@ export async function CONTRACT_DATA(address) {
         poolInfoArray.push(pool);
 
         //lets get the total amount of token deposited by a single user in all the pool
+        //since we looped using the user address then pushed it inside an array, note. We are still inside the user loop
         const totalDepositAmount = poolInfoArray.reduce((total, pool) => {
           return total + parseFloat(pool.depositedAmount);
         });
       }
+
+      const rewardToken = await ERC20(REWARD_TOKEN, address);
+      const depositedToken = await ERC20(DEPOSIT_TOKEN, address);
+
+      const data = {
+        contractOwner: contractOwner,
+        contractAddress: contractAddress,
+        notifications: _notificationsArray.reverse(),
+        poolInfoArray: poolInfoArray,
+        rewardToken: rewardToken,
+        depositedToken: depositedToken,
+        totalDepositAmount: toEth(totalDepositAmount),
+      };
     }
   } catch (error) {}
 }
