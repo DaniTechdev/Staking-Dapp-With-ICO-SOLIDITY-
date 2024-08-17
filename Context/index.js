@@ -13,7 +13,7 @@ const DEPOSIT_TOKEN = process.env.NEXT_PUBLIC_DEPOSIT_TOKEN;
 const REWARD_TOKEN = process.env.NEXT_PUBLIC_REWARD_TOKEN;
 const TOKEN_LOGO = process.env.NEXT_PUBLIC_TOKEN_LOGO;
 
-const nofifySuccess = (msg) => toast.success(msg, { duration: 2000 });
+const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
 const nofifyError = (msg) => toast.error(msg, { duration: 2000 });
 
 //FUNCTIONS
@@ -54,6 +54,7 @@ export const copyAddress = (text) => {
   nofifySuccess("Address copied successfully!");
 };
 
+//READING DATA function
 export async function CONTRACT_DATA(address) {
   try {
     const contractObj = await contract();
@@ -114,13 +115,13 @@ export async function CONTRACT_DATA(address) {
         };
 
         poolInfoArray.push(pool);
-
-        //lets get the total amount of token deposited by a single user in all the pool
-        //since we looped using the user address then pushed it inside an array, note. We are still inside the user loop
-        const totalDepositAmount = poolInfoArray.reduce((total, pool) => {
-          return total + parseFloat(pool.depositedAmount);
-        });
       }
+
+      //lets get the total amount of token deposited by a single user in all the pool
+      //since we looped using the user address then pushed it inside an array, note. We are still inside the user loop
+      const totalDepositAmount = poolInfoArray.reduce((total, pool) => {
+        return total + parseFloat(pool.depositedAmount);
+      });
 
       const rewardToken = await ERC20(REWARD_TOKEN, address);
       const depositedToken = await ERC20(DEPOSIT_TOKEN, address);
@@ -132,8 +133,66 @@ export async function CONTRACT_DATA(address) {
         poolInfoArray: poolInfoArray,
         rewardToken: rewardToken,
         depositedToken: depositedToken,
-        totalDepositAmount: toEth(totalDepositAmount),
+        totalDepositAmount: totalDepositAmount,
+        contractTokenBalance:
+          depositedToken.contractTokenBalance - totalDepositAmount,
       };
+
+      return data;
     }
+  } catch (error) {
+    console.log(error);
+
+    console.log(parseErrorMsg(error));
+
+    return parseErrorMsg(error);
+  }
+}
+
+//WRITING DATA FUNCTION
+export async function deposit(poolID, amount, address) {
+  try {
+    notifySuccess("calling contract...");
+
+    const contractObj = await contract();
+    //we will take stakingToken object in order to call the allowance/approve function.
+    // This is necessary because the token contract needs to allow the
+    //tokenContrat   to transfer tokens on its behalf user.
+
+    const stakingTokenObj = await tokenContract();
+
+    // const depositAmount = toWei(amount);
+    const amountInWei = ethers.utils.parseUnits(amount.toString(), 18);
+
+    const currentAllowance = await stakingTokenObj.allowance(
+      address,
+      contractObj.address
+    );
+
+    //if the current allowance is less than the deposit amount, approve the amount
+    if (currentAllowance.lt(amountInWei)) {
+      const approveTx = await stakingTokenObj.approve(
+        contractObj.address,
+        amountInWei
+      );
+
+      await approveTx.wait();
+
+      console.log(`Approved ${amountInWei.toString()} token for staking`);
+    }
+
+    //we can calculate the gas we want to pay when we call a function to write on the blockchain
+    //though they might have estimation for any function we want to call in the contract
+
+    const gasEstimation = await contractObj.gasEstimation.deposit(
+      Number(poolID),
+      amountInWei
+    ); //this will give the gas estimation the deposit function call will cost,
+    //we will use the estimation in the deposit function
+
+    notifySuccess("Staking token call...");
+    const stakeTx = await contractObj.deposit(poolID, amountInWei, {
+      gasLimit: gasEstimation,
+    });
   } catch (error) {}
 }
