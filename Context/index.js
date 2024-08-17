@@ -51,5 +51,21 @@ export const SHORTEN_ADDRESS = (address) => {
 
 export const copyAddress = (text) => {
   navigator.clipboard.writeText(text);
-  nofifySuccess("Address copied to clipboard!");
+  nofifySuccess("Address copied successfully!");
 };
+
+export async function CONTRACT_DATA(address) {
+  try {
+    const contractObj = await contract();
+    const stakingTokenObj = await tokenContract();
+
+    if (address) {
+      const contractOwner = await contractObj.owner();
+      const contractAddress = await contractObj.address();
+
+      //NOTIFICATION
+
+      const notifications = await contractObj.getNotification();
+    }
+  } catch (error) {}
+}

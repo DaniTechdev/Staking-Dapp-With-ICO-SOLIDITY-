@@ -72,7 +72,7 @@ contract TOKENICO {
 
         require(
             _tokenAmount <= token.balanceOf(address(this)),
-            "You can purchase more than token supply"
+            "You can't purchase more than token supply"
         );
 
         require(token.transfer(msg.sender, _tokenAmount * 1e18));
