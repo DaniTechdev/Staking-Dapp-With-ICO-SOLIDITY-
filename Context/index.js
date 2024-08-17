@@ -14,7 +14,7 @@ const REWARD_TOKEN = process.env.NEXT_PUBLIC_REWARD_TOKEN;
 const TOKEN_LOGO = process.env.NEXT_PUBLIC_TOKEN_LOGO;
 
 const notifySuccess = (msg) => toast.success(msg, { duration: 2000 });
-const nofifyError = (msg) => toast.error(msg, { duration: 2000 });
+const notifyError = (msg) => toast.error(msg, { duration: 2000 });
 
 //FUNCTIONS
 
@@ -157,7 +157,7 @@ export async function deposit(poolID, amount, address) {
     const contractObj = await contract();
     //we will take stakingToken object in order to call the allowance/approve function.
     // This is necessary because the token contract needs to allow the
-    //tokenContrat   to transfer tokens on its behalf user.
+    //staking contract to transfer tokens on its behalf.
 
     const stakingTokenObj = await tokenContract();
 
@@ -194,5 +194,17 @@ export async function deposit(poolID, amount, address) {
     const stakeTx = await contractObj.deposit(poolID, amountInWei, {
       gasLimit: gasEstimation,
     });
-  } catch (error) {}
+
+    const receipt = await stakeTx.wait();
+    notifySuccess("Token staked successfully");
+
+    return receipt;
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
 }
+
+export
