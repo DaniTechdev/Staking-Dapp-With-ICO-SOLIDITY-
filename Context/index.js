@@ -64,8 +64,62 @@ export async function CONTRACT_DATA(address) {
       const contractAddress = await contractObj.address();
 
       //NOTIFICATION
+      //reading the data
 
       const notifications = await contractObj.getNotification();
+      const _notificationsArray = await Promise.all(
+        notifications.map(
+          async ({ pooID, amount, user, typeOf, timeStamp }) => {
+            return {
+              pooID: pooID.toNumber(),
+              amount: toEth(amount),
+              user: user,
+              typeOf: typeOf,
+              timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timeStamp),
+            };
+          }
+        )
+      );
+
+      //POOL INFORMATION
+      //reading the data
+
+      let poolInfoArray = [];
+      const poolLenght = await contractObj.poolCount();
+      const length = poolLenght.toNumber();
+
+      for (let i = 0; 1 < length; i++) {
+        const poolInfo = await contractObj.poolInfo(i);
+
+        const userInfo = await contractObj.userInfo(i, address);
+        const userReward = await contract.pendingReward(i, address);
+
+        //getting the ERC20 token information/object at the stakingPoolContract with a particular user address
+        const tokenPoolInfoA = await ERC20(poolInfo.depositToken, address);
+        const tokenPoolInfoB = await ERC20(poolInfo.rewardToken, address);
+
+        //information of the poolTokenAddressess and pool token objects
+        const pool = {
+          //poolinfor
+          depositTokenAddress: poolInfo.depositToken,
+          rewardTokenAddress: poolInfo.rewardToken,
+          depositToken: tokenPoolInfoA,
+          rewardToken: tokenPoolInfoB,
+
+          //user
+          amount: toEth(userInfo.amount.toString()),
+          userReward: toEth(userReward),
+          lockUntil: CONVERT_TIMESTAMP_TO_READABLE(userInfo.lockUntil.toNumber),
+          lastRewardAt: toEth(userInfo.lastRewardAt.toString()),
+        };
+
+        poolInfoArray.push(pool);
+
+        //lets get the total amount of token deposited by a single user in all the pool
+        const totalDepositAmount = poolInfoArray.reduce((total, pool) => {
+          return total + parseFloat(pool.depositedAmount);
+        });
+      }
     }
   } catch (error) {}
 }
