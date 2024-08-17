@@ -207,4 +207,4 @@ export async function deposit(poolID, amount, address) {
   }
 }
 
-export
+export async function transferToken(amount, transfer, address) {}
