@@ -531,7 +531,21 @@ export const UPDATE_TOKEN = async (_address) => {
 
 export const UPDATE_TOKEN_PRICE = async (_price) => {
   try {
+    if (!_price) return notifyError("Data is missing");
+
     const contract = await TOKEN_ICO_CONTRACT;
+
+    const payAmount = ethers.utils.parseUnits(_price.toString(), "ether");
+    const gasEstimation = await contract.estimateGas.updateTokenPrice(
+      payAmount
+    );
+    const transaction = await contract.updateTokenPrice(payAmount, {
+      gasLimit: gasEstimation,
+    });
+
+    const receipt = await transaction.wait();
+
+    notifySuccess("Transaction succesffuly completed");
   } catch (error) {
     console.log(error);
     const errorMsg = parseErrorMsg(error);
