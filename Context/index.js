@@ -447,7 +447,7 @@ export const BUY_TOKEN = async (amount) => {
     //get the avalable of that token in the TOKEN ICO contract ti know if the user can be able to
     //buy or not
     const availableToken = ethers.utils.formatEther(
-      tokenDetails.tokenSalePrice.toString()
+      tokenDetails.balance.toString()
     );
 
     if (availableToken > 1) {
@@ -456,6 +456,19 @@ export const BUY_TOKEN = async (amount) => {
         Number(amount);
 
       const payAmount = ethers.utils.parseUnits(price.toString(), "ether");
+
+      const transaction = await contract.buyTokens(Number(amount), {
+        value: payAmount.toString(),
+        gasLimit: ethers.utils.hexlify(8000000), //used this  cos get the gasEsstimation was throwing an error
+      });
+
+      const receipt = await transaction.wait();
+
+      notifySuccess("Transaction succesffuly completed");
+      return receipt;
+    } else {
+      notifyError("Token balance is lower than expected");
+      return "receipt";
     }
   } catch (error) {
     console.log(error);
@@ -466,7 +479,17 @@ export const BUY_TOKEN = async (amount) => {
 
 export const TOKEN_WIDTHRAW = async () => {
   try {
+    notifySuccess("calling ico contract");
+
     const contract = await TOKEN_ICO_CONTRACT;
+
+    //get the details of the token the user wants to buy from the TOKEN ico contract
+    const tokenDetails = await contract.getTokenDetails();
+    //get the avalable of that token in the TOKEN ICO contract ti know if the user can be able to
+    //buy or not
+    const availableToken = ethers.utils.formatEther(
+      tokenDetails.balance.toString()
+    );
   } catch (error) {
     console.log(error);
     const errorMsg = parseErrorMsg(error);
