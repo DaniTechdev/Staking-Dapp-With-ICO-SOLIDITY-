@@ -89,10 +89,10 @@ export async function CONTRACT_DATA(address) {
       const poolLenght = await contractObj.poolCount();
       const length = poolLenght.toNumber();
 
-      for (let i = 0; 1 < length; i++) {
+      for (let i = 0; i < length; i++) {
         const poolInfo = await contractObj.poolInfo(i);
 
-        const userInfo = await contractObj.userInfo(i, address);
+        const userInfo = await contractObj.userInfo(i, address); //this is the nested  mapping of the poolId(i) to the user
         const userReward = await contract.pendingReward(i, address);
 
         //getting the ERC20 token information/object at the stakingPoolContract with a particular user address

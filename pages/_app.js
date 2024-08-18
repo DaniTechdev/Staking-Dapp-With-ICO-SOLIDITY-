@@ -1,6 +1,6 @@
 import "../styles/globals.css";
 import toast, { Toaster } from "react-hot-toast";
-import merge from "loadash/merge";
+import merge from "lodash/merge";
 import "@rainbow-me/rainbowkit/styles.css";
 
 import {
@@ -77,15 +77,15 @@ export default function App({ Component, pageProps }) {
   });
 
   const myTheme = merge(midnightTheme(), {
-    color: {
-      accentColor: "#562c7B",
+    colors: {
+      accentColor: "#562C7B",
       accentColorForeground: "#fff",
     },
   });
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider chains={chain} theme={myTheme}>
+        <RainbowKitProvider chains={chains} theme={myTheme}>
           <Component {...pageProps} />
           <Toaster />
         </RainbowKitProvider>
