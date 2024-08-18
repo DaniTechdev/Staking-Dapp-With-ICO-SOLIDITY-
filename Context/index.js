@@ -267,7 +267,7 @@ export async function widthdraw(poolID, amount) {
   }
 }
 
-export async function claimReward(pool) {
+export async function createPool(pool) {
   try {
     const { _depositToken, _rewardToken, _api, _lockDays } = pool;
     //checking if all pool data are provided
@@ -314,7 +314,7 @@ export async function claimReward(poolID) {
     //claims from contract oject//staking contract
     const contractObj = await contract();
 
-    const gasEstimation = await contractObj.gasEstimation.widthdraw(
+    const gasEstimation = await contractObj.gasEstimation.claimReward(
       Number(poolID)
     );
 
@@ -324,6 +324,65 @@ export async function claimReward(poolID) {
 
     const receipt = await data.wait();
     notifySuccess("Reward claim successfully completed");
+
+    return receipt;
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+}
+
+export async function modifyPool(poolID, amount) {
+  try {
+    notifySuccess("calling contract...");
+
+    //modifypool from contract oject//staking contract
+    const contractObj = await contract();
+
+    const gasEstimation = await contractObj.gasEstimation.modifyPool(
+      Number(poolID),
+      Number(amount)
+    );
+
+    const data = await contractObj.modifyPool(Number(poolID), Number(amount), {
+      gasLimit: gasEstimation,
+    });
+
+    const receipt = await data.wait();
+    notifySuccess("Pool modification successfully completed");
+
+    return receipt;
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+}
+
+export async function sweep(tokenData) {
+  try {
+    const { token, amount } = tokenData;
+    //check if data is missing
+    if (!token || !amount) return notifyError("Data is missing");
+    notifySuccess("calling contract...");
+
+    //modifypool from contract oject//staking contract
+    const contractObj = await contract();
+
+    const gasEstimation = await contractObj.gasEstimation.sweep(
+      token,
+      Number(amount)
+    );
+
+    const data = await contractObj.sweep(token, Number(amount), {
+      gasLimit: gasEstimation,
+    });
+
+    const receipt = await data.wait();
+    notifySuccess("Pool modification successfully completed");
 
     return receipt;
   } catch (error) {
