@@ -395,3 +395,40 @@ export async function sweep(tokenData) {
     notifyError(errorMsg);
   }
 }
+
+//ADD TOKEN TO METAMASK
+export const addTokenMetaMask = async (token) => {
+  if (window.ethereum) {
+    const contract = await tokenContract;
+
+    const tokenDecimals = await contract.decimals();
+    const tokenAddress = await contract.address();
+    const tokenSymbol = await contract.symbol();
+    const tokenImage = await TOKEN_LOGO;
+
+    try {
+      const wasAdded = await window.ethereum.request({
+        method: "wallet_watchAsset",
+        params: {
+          type: "ERC20",
+          options: {
+            address: tokenAddress,
+            symbol: tokenSymbol,
+            decimals: Number(tokenDecimals),
+            image: tokenImage,
+          },
+        },
+      });
+
+      if (wasAdded) {
+        notifySuccess("TOken added successfully");
+      } else {
+        notifyError("Failed to add token");
+      }
+    } catch (error) {
+      notifyError("Failed to add token");
+    }
+  } else {
+    notifyError("MetaMask is not installed");
+  }
+};
