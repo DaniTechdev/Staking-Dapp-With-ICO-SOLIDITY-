@@ -390,7 +390,6 @@ export async function sweep(tokenData) {
     return receipt;
   } catch (error) {
     console.log(error);
-
     const errorMsg = parseErrorMsg(error);
     notifyError(errorMsg);
   }
@@ -414,7 +413,7 @@ export const addTokenMetaMask = async (token) => {
           options: {
             address: tokenAddress,
             symbol: tokenSymbol,
-            decimals: Number(tokenDecimals),
+            decimals: tokenDecimals,
             image: tokenImage,
           },
         },
@@ -430,5 +429,67 @@ export const addTokenMetaMask = async (token) => {
     }
   } else {
     notifyError("MetaMask is not installed");
+  }
+};
+
+//FUNCTIONALITIES FOR TOKEN ICO CONTRACT
+
+//ICO CONTRACT
+
+export const BUY_TOKEN = async (amount) => {
+  try {
+    notifySuccess("calling ico contract");
+    const contract = await TOKEN_ICO_CONTRACT;
+
+    //get the details of the token the user wants to buy from the TOKEN ico contract
+    const tokenDetails = await contract.getTokenDetails();
+
+    //get the avalable of that token in the TOKEN ICO contract ti know if the user can be able to
+    //buy or not
+    const availableToken = ethers.utils.formatEther(
+      tokenDetails.tokenSalePrice.toString()
+    );
+
+    if (availableToken > 1) {
+      const price =
+        ethers.utils.formatEther(tokenDetails.tokenPrice.toString()) *
+        Number(amount);
+
+      const payAmount = ethers.utils.parseUnits(price.toString(), "ether");
+    }
+  } catch (error) {
+    console.log(error);
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+};
+
+export const TOKEN_WIDTHRAW = async () => {
+  try {
+    const contract = await TOKEN_ICO_CONTRACT;
+  } catch (error) {
+    console.log(error);
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+};
+
+export const UPDATE_TOKEN = async (_address) => {
+  try {
+    const contract = await TOKEN_ICO_CONTRACT;
+  } catch (error) {
+    console.log(error);
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+};
+
+export const UPDATE_TOKEN_PRICE = async (_price) => {
+  try {
+    const contract = await TOKEN_ICO_CONTRACT;
+  } catch (error) {
+    console.log(error);
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
   }
 };
