@@ -490,6 +490,17 @@ export const TOKEN_WIDTHRAW = async () => {
     const availableToken = ethers.utils.formatEther(
       tokenDetails.balance.toString()
     );
+
+    if (availableToken > 1) {
+      const transaction = await contract.withdrawAllTokens();
+      const receipt = await transaction.wait();
+
+      notifySuccess("Withdrawal succesffuly completed");
+      return receipt;
+    } else {
+      notifyError("Token balance is lower than expected");
+      return "receipt";
+    }
   } catch (error) {
     console.log(error);
     const errorMsg = parseErrorMsg(error);
@@ -499,7 +510,18 @@ export const TOKEN_WIDTHRAW = async () => {
 
 export const UPDATE_TOKEN = async (_address) => {
   try {
+    if (!_address) return notifyError("Data is missing");
     const contract = await TOKEN_ICO_CONTRACT;
+
+    const gasEstimation = await contract.estimateGas.updateToken(_address);
+    const transaction = await contract.updateToken(_address, {
+      gasLimit: gasEstimation,
+    });
+
+    const receipt = await transaction.wait();
+
+    notifySuccess("Transaction succesffuly completed");
+    return receipt;
   } catch (error) {
     console.log(error);
     const errorMsg = parseErrorMsg(error);
