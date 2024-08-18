@@ -240,7 +240,7 @@ export async function transferToken(amount, transferAddresss) {
 
 export async function widthdraw(poolID, amount) {
   try {
-    notifySuccess("calling contract");
+    notifySuccess("calling contract ...");
     const amountInWei = ethers.utils.parseUnits(amount.toString(), 18);
     //widthdraw from contract oject//staking contract
     const contractObj = await contract();
@@ -257,6 +257,73 @@ export async function widthdraw(poolID, amount) {
 
     const receipt = await data.wait();
     notifySuccess("transaction successfully completed");
+
+    return receipt;
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+}
+
+export async function claimReward(pool) {
+  try {
+    const { _depositToken, _rewardToken, _api, _lockDays } = pool;
+    //checking if all pool data are provided
+    if (!_depositToken || !_rewardToken || !_api || !_lockDays)
+      return notifyError("Provide all the details");
+
+    notifySuccess("calling contract...");
+
+    //claims from contract oject//staking contract
+    const contractObj = await contract();
+
+    const gasEstimation = await contractObj.gasEstimation.addPool(
+      _depositToken,
+      _rewardToken,
+      Number(_api),
+      Number(_lockDays)
+    );
+
+    const stakeTx = await contractObj.addPool(
+      _depositToken,
+      _rewardToken,
+      Number(_api),
+      Number(_lockDays),
+      {
+        gasLimit: gasEstimation,
+      }
+    );
+
+    const receipt = await stakeTx.wait();
+    notifySuccess(" Pool creation successfully completed");
+
+    return receipt;
+  } catch (error) {
+    console.log(error);
+
+    const errorMsg = parseErrorMsg(error);
+    notifyError(errorMsg);
+  }
+}
+export async function claimReward(poolID) {
+  try {
+    notifySuccess("calling contract...");
+
+    //claims from contract oject//staking contract
+    const contractObj = await contract();
+
+    const gasEstimation = await contractObj.gasEstimation.widthdraw(
+      Number(poolID)
+    );
+
+    const data = await contractObj.claimReward(Number(poolID), {
+      gasLimit: gasEstimation,
+    });
+
+    const receipt = await data.wait();
+    notifySuccess("Reward claim successfully completed");
 
     return receipt;
   } catch (error) {
