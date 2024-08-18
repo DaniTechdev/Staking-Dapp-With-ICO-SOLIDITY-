@@ -362,6 +362,7 @@ export async function modifyPool(poolID, amount) {
   }
 }
 
+//sweep allow the contract owner to withdraw token out of it.
 export async function sweep(tokenData) {
   try {
     const { token, amount } = tokenData;
@@ -372,17 +373,19 @@ export async function sweep(tokenData) {
     //modifypool from contract oject//staking contract
     const contractObj = await contract();
 
+    const transferAmount = ethers.utils.parseEther(amount);
+
     const gasEstimation = await contractObj.gasEstimation.sweep(
       token,
-      Number(amount)
+      transferAmount
     );
 
-    const data = await contractObj.sweep(token, Number(amount), {
+    const data = await contractObj.sweep(token, transferAmount, {
       gasLimit: gasEstimation,
     });
 
     const receipt = await data.wait();
-    notifySuccess("Pool modification successfully completed");
+    notifySuccess("sweep successfully completed");
 
     return receipt;
   } catch (error) {
