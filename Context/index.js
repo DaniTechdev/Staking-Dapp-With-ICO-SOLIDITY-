@@ -60,23 +60,28 @@ export async function CONTRACT_DATA(address) {
     const contractObj = await contract();
     const stakingTokenObj = await tokenContract();
 
+    // console.log("contractObj", contractObj);
+
     if (address) {
       const contractOwner = await contractObj.owner();
-      const contractAddress = await contractObj.address();
+      const contractAddress = await contractObj.address;
 
       //NOTIFICATION
       //reading the data
 
       const notifications = await contractObj.getNotification();
+
+      console.log("notifications", notifications);
+
       const _notificationsArray = await Promise.all(
         notifications.map(
-          async ({ pooID, amount, user, typeOf, timeStamp }) => {
+          async ({ pooID, amount, user, typeOf, timestamp }) => {
             return {
               pooID: pooID.toNumber(),
               amount: toEth(amount),
               user: user,
               typeOf: typeOf,
-              timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timeStamp),
+              timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timestamp),
             };
           }
         )
@@ -93,7 +98,7 @@ export async function CONTRACT_DATA(address) {
         const poolInfo = await contractObj.poolInfo(i);
 
         const userInfo = await contractObj.userInfo(i, address); //this is the nested  mapping of the poolId(i) to the user
-        const userReward = await contract.pendingReward(i, address);
+        const userReward = await contractObj.pendingReward(i, address);
 
         //getting the ERC20 token information/object at the stakingPoolContract with a particular user address
         const tokenPoolInfoA = await ERC20(poolInfo.depositToken, address);
@@ -117,11 +122,13 @@ export async function CONTRACT_DATA(address) {
         poolInfoArray.push(pool);
       }
 
+      console.log("poolInfoArray", poolInfoArray);
+
       //lets get the total amount of token deposited by a single user in all the pool
       //since we looped using the user address then pushed it inside an array, note. We are still inside the user loop
       const totalDepositAmount = poolInfoArray.reduce((total, pool) => {
         return total + parseFloat(pool.depositedAmount);
-      });
+      }, 0);
 
       const rewardToken = await ERC20(REWARD_TOKEN, address);
       const depositedToken = await ERC20(DEPOSIT_TOKEN, address);

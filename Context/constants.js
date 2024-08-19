@@ -9,13 +9,15 @@ const TOKEN_ICO = process.env.NEXT_PUBLIC_TOKEN_ICO;
 
 //TOKEN
 const DEPOSIT_TOKEN = process.env.NEXT_PUBLIC_DEPOSIT_TOKEN;
-const REWARD_TOKEN = process.env.NEXT_PUBLIC_DEPOSIT_TOKEN;
+const REWARD_TOKEN = process.env.NEXT_PUBLIC_REWARD_TOKEN;
 
 //WALLET
 //UTILITY FUNCTION
 
 //function to convert any number to ETHER
 export function toETH(amount, decimals = 18) {
+  // const amountBN = BigNumber.from(amount);
+
   const toEth = ethers.utils.formatUnits(amount, decimals);
   return toEth.toString();
 }
@@ -69,12 +71,17 @@ export const ERC20 = async (address, userAddress) => {
       signer
     );
 
+    // console.log(
+    //   "contractReader from ERC20",
+    //   ethers.utils.formatEther(contractReader.totalSupply(), 18)
+    // );
+
     const token = {
       name: await contractReader.name(),
       symbol: await contractReader.symbol(),
       address: await contractReader.address,
       totalSupply: toETH(await contractReader.totalSupply()),
-      balance: toETH(contractReader.balanceOf(userAddress)),
+      balance: toETH(await contractReader.balanceOf(userAddress)),
       contractTokenBalance: toETH(
         await contractReader.balanceOf(STAKING_DAPP_ADDRESS)
       ),
@@ -154,7 +161,6 @@ export const TOKEN_ICO_ERC20 = async () => {
       //USER ADDRESS
       const userAddress = await signer.getAddress();
       const nativeBalance = await signer.getBalance();
-      const balance = await contractReader.balanceOf(userAddress);
 
       const token = {
         address: await contractReader.address,
@@ -162,7 +168,7 @@ export const TOKEN_ICO_ERC20 = async () => {
         symbol: await contractReader.symbol(),
         decimals: await contractReader.decimals(),
         supply: toETH(await contractReader.totalSupply()),
-        balance: toETH(contractReader.balanceOf(balance)),
+        balance: toETH(await contractReader.balanceOf(userAddress)),
         contractTokenBalance: toETH(nativeBalance.toString()),
       };
 

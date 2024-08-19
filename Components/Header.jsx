@@ -6,8 +6,8 @@ import { useAccount } from "wagmi";
 import { MdGeneratingTokens } from "../Components/ReactICON/index";
 
 const Header = ({ page }) => {
-  const { connector } = useAccount();
-  console.log("connector", connector);
+  // const { connector } = useAccount();
+  // console.log("connector", connector);
 
   const [tokenBalComp, setTokenBalComp] = useState();
 
