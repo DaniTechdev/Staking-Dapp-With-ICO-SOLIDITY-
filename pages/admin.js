@@ -52,7 +52,8 @@ const admin = () => {
       <Header page={"admin"} />
       <Footer />
 
-      {!loader && <loader />}
+      {checkAdmin && <Auth />}
+      {loader && <Loader />}
     </>
   );
 };
