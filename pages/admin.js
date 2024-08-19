@@ -16,8 +16,33 @@ import {
   modifyPool,
 } from "../Context/index";
 
+const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
+
 const admin = () => {
-  return <div>admin</div>;
+  const { address } = useAccount();
+
+  const [loader, setLoader] = useState(false);
+  const [checkAdmin, setCheckAdmin] = useState(true);
+
+  const [poolDetails, setPoolDetails] = useState();
+  const [modifyPoolID, setModifyPoolID] = useState();
+
+  const LOAD_DATA = async () => {
+    if (address) {
+      setLoader(true);
+
+      if (address?.toLowerCase() == ADMIN_ADDRESS?.toLowerCase()) {
+        setCheckAdmin(true);
+        const data = await CONTRACT_DATA(address);
+      }
+    }
+  };
+  return (
+    <>
+      <Header />
+      <Footer />
+    </>
+  );
 };
 
 export default admin;
