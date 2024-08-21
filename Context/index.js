@@ -97,14 +97,13 @@ export async function CONTRACT_DATA(address) {
       for (let i = 0; i < length; i++) {
         const poolInfo = await contractObj.poolInfo(i);
 
+        console.log("poolInfo", poolInfo);
+
         const userInfo = await contractObj.userInfo(i, address); //this is the nested  mapping of the poolId(i) to the user
         const userReward = await contractObj.pendingReward(i, address);
 
         //getting the ERC20 token information/object at the stakingPoolContract with a particular user address
         const tokenPoolInfoA = await ERC20(poolInfo.depositToken, address);
-
-        console.log("tokenPoolInfoA", tokenPoolInfoA);
-
         const tokenPoolInfoB = await ERC20(poolInfo.rewardToken, address);
 
         //information of the poolTokenAddressess and pool token objects
@@ -114,7 +113,9 @@ export async function CONTRACT_DATA(address) {
           rewardTokenAddress: poolInfo.rewardToken,
           depositToken: tokenPoolInfoA,
           rewardToken: tokenPoolInfoB,
-          // apy:poolInfo.apy
+          depositedAmount: toEth(poolInfo.depositedAmount.toString()),
+          apy: poolInfo.apy.toString(),
+          lockDays: poolInfo.apy.toString(),
 
           //user
           amount: toEth(userInfo.amount.toString()),
@@ -122,6 +123,8 @@ export async function CONTRACT_DATA(address) {
           lockUntil: CONVERT_TIMESTAMP_TO_READABLE(userInfo.lockUntil.toNumber),
           lastRewardAt: toEth(userInfo.lastRewardAt.toString()),
         };
+
+        console.log("pool", pool);
 
         poolInfoArray.push(pool);
       }

@@ -20,6 +20,8 @@ const Admin = ({
   sweep,
   setModifyPoolID,
 }) => {
+  console.log("poolDetails", poolDetails);
+
   return (
     <div className="section">
       <div className="container">
@@ -38,35 +40,31 @@ const Admin = ({
                     <AdminCard
                       key={index}
                       name={`Current Apy: ${pool.apy}`}
-                      value={`${
-                        pool.depositedAmount
-                      }  ${pool.depositToken.symbol()}`}
+                      value={`${pool.depositedAmount}  ${pool.depositToken.symbol}`}
                     />
                   ))}
 
                   <AdminCard
                     name={`Totall Stake`}
-                    value={`${
-                      poolDetails?.depositedAmount
-                    }  ${poolDetails?.depositToken.symbol()}`}
+                    value={`${poolDetails?.depositedAmount}  ${poolDetails?.depositedToken.symbol}`}
                   />
 
                   <AdminCard
                     name={`Your balance`}
-                    value={`${poolDetails?.depositedAmount.balance.slice(
+                    value={`${poolDetails?.depositedToken.balance.slice(
                       0,
                       8
-                    )}  ${poolDetails?.depositToken.symbol()}`}
+                    )}  ${poolDetails?.depositedToken.symbol}`}
                   />
 
                   <AdminCard
                     name={`Available Supply`}
                     value={`${poolDetails?.contractTokenBalance
                       .toString()
-                      .slice(0, 8)}  ${poolDetails?.depositToken?.symbol()}`}
+                      .slice(0, 8)}  ${poolDetails?.depositedToken?.symbol}`}
                   />
 
-                  <Token token={poolDetails?.depositToken} />
+                  <Token token={poolDetails?.depositedToken} />
                 </div>
               </div>
 
