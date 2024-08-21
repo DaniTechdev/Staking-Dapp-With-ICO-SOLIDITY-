@@ -38,11 +38,57 @@ const Admin = ({
                     <AdminCard
                       key={index}
                       name={`Current Apy: ${pool.apy}`}
-                      value={`${pool.depositedAmount}  ${pool.depositedToken.symbol}`}
+                      value={`${
+                        pool.depositedAmount
+                      }  ${pool.depositToken.symbol()}`}
                     />
                   ))}
+
+                  <AdminCard
+                    name={`Totall Stake`}
+                    value={`${
+                      poolDetails?.depositedAmount
+                    }  ${poolDetails?.depositToken.symbol()}`}
+                  />
+
+                  <AdminCard
+                    name={`Your balance`}
+                    value={`${poolDetails?.depositedAmount.balance.slice(
+                      0,
+                      8
+                    )}  ${poolDetails?.depositToken.symbol()}`}
+                  />
+
+                  <AdminCard
+                    name={`Available Supply`}
+                    value={`${poolDetails?.contractTokenBalance
+                      .toString()
+                      .slice(0, 8)}  ${poolDetails?.depositToken?.symbol()}`}
+                  />
+
+                  <Token token={poolDetails?.depositToken} />
                 </div>
               </div>
+
+              <Investing poolDetails={poolDetails} />
+              <Staking
+                poolDetails={poolDetails}
+                sweep={sweep}
+                address={address}
+              />
+              <Transfer
+                poolDetails={poolDetails}
+                transferToken={transferToken}
+                setLoader={setLoader}
+                address={address}
+              />
+              <Pool
+                poolDetails={poolDetails}
+                createPool={createPool}
+                setLoader={setLoader}
+                setModifyPoolID={setModifyPoolID}
+              />
+              <ICOToken setLoader={setLoader} />
             </div>
           </div>
         </div>

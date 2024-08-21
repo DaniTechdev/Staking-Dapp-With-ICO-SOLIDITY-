@@ -102,6 +102,9 @@ export async function CONTRACT_DATA(address) {
 
         //getting the ERC20 token information/object at the stakingPoolContract with a particular user address
         const tokenPoolInfoA = await ERC20(poolInfo.depositToken, address);
+
+        console.log("tokenPoolInfoA", tokenPoolInfoA);
+
         const tokenPoolInfoB = await ERC20(poolInfo.rewardToken, address);
 
         //information of the poolTokenAddressess and pool token objects
@@ -111,6 +114,7 @@ export async function CONTRACT_DATA(address) {
           rewardTokenAddress: poolInfo.rewardToken,
           depositToken: tokenPoolInfoA,
           rewardToken: tokenPoolInfoB,
+          // apy:poolInfo.apy
 
           //user
           amount: toEth(userInfo.amount.toString()),
