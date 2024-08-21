@@ -31,7 +31,7 @@ const Admin = ({
           <div className="col-12 col-lg-9">
             <div className="tab-content">
               <div
-                className="tab-pane fade sshow active"
+                className="tab-pane fade show active"
                 id="tab-1"
                 role="tabpanel"
               >
@@ -45,7 +45,7 @@ const Admin = ({
                   ))}
 
                   <AdminCard
-                    name={`Totall Stake`}
+                    name={`Total Stake`}
                     value={`${poolDetails?.depositedAmount}  ${poolDetails?.depositedToken.symbol}`}
                   />
 
