@@ -46,7 +46,9 @@ const Admin = ({
 
                   <AdminCard
                     name={`Total Stake`}
-                    value={`${poolDetails?.depositedAmount}  ${poolDetails?.depositedToken.symbol}`}
+                    value={`${poolDetails?.depositedAmount || "0"}  ${
+                      poolDetails?.depositedToken.symbol
+                    }`}
                   />
 
                   <AdminCard

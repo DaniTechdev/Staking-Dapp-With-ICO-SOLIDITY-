@@ -95,7 +95,10 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                     }
                   />
 
-                  <ClickButton name={"Create Pool"} />
+                  <ClickButton
+                    name={"Create Pool"}
+                    handleClick={() => CALLING_FUNCTION(pool)}
+                  />
                 </div>
               </div>
 
