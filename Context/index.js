@@ -51,7 +51,7 @@ export const SHORTEN_ADDRESS = (address) => {
 
 export const copyAddress = (text) => {
   navigator.clipboard.writeText(text);
-  nofifySuccess("Address copied successfully!");
+  notifySuccess("Address copied successfully!");
 };
 
 //READING DATA function
@@ -86,6 +86,22 @@ export async function CONTRACT_DATA(address) {
           }
         )
       );
+      //OR
+      // const _notificationsArray = await Promise.all(
+      //   notifications.map((notification) => {
+      //     const { poolID, amount, user, typeOf, timestamp } = notification;
+
+      //     const notificationData = {
+      //       poolID: poolID.toNumber(),
+      //       amount: toEth(amount),
+      //       user: user,
+      //       typeOf: typeOf,
+      //       timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timestamp),
+      //     };
+
+      //     return notificationData;
+      //   })
+      // );
 
       //POOL INFORMATION
       //reading the data
