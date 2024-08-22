@@ -121,11 +121,73 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                         <tbody>
                           {poolArray.map((pool, index) => (
                             <tr key={index}>
-                              <div className="deals__exchange">
-                                <span className="red">
-                                  {SHORTEN_ADDRESS(pool._depositTokenAddress)}
-                                </span>
-                              </div>
+                              <td>
+                                <div className="deals__exchange">
+                                  <span className="red">
+                                    {SHORTEN_ADDRESS(pool.depositTokenAddress)}{" "}
+                                    &nbsp; & &nbsp; {pool.depositToken.symbol}
+                                    &nbsp; & &nbsp;
+                                    <FaRegCopy
+                                      onClick={() =>
+                                        copyAddress(pool.depositTokenAddress)
+                                      }
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="deals__exchange">
+                                  <span className="red">
+                                    {SHORTEN_ADDRESS(pool.rewardTokenAddress)}{" "}
+                                    &nbsp; & &nbsp; {pool.rewardToken.symbol}
+                                    &nbsp; & &nbsp;
+                                    <FaRegCopy
+                                      onClick={() =>
+                                        copyAddress(pool.rewardTokenAddress)
+                                      }
+                                    />
+                                  </span>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="deals__text deals__text--green">
+                                  {pool.depositedAmount}
+                                  &nbsp;{" "}
+                                  <span className="red">
+                                    {pool.depositToken.symbol}
+                                  </span>
+                                </div>
+                              </td>
+                              <td>
+                                <div className="deals__text">#P00-{index}</div>
+                              </td>
+                              <td>
+                                <div className="deals__text deals__text--green">
+                                  {pool.apy}
+                                </div>
+                              </td>
+                              <td>
+                                <div className="deals__text deals__text--sell">
+                                  {pool.lockDays} days
+                                </div>
+
+                                <td>
+                                  <div className="deals__text deals__text--sell">
+                                    <a
+                                      className="header__profile"
+                                      data-bs-target="modal-apool"
+                                      type="button"
+                                      data-bs-toggle="modal"
+                                      onClick={() => setModifyPoolID(index)}
+                                    >
+                                      <i className="ti">
+                                        <FaEdit />
+                                      </i>
+                                      <span>Update APY</span>
+                                    </a>
+                                  </div>
+                                </td>
+                              </td>
                             </tr>
                           ))}
                         </tbody>
