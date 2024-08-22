@@ -21,7 +21,7 @@ const ADMIN_ADDRESS = process.env.NEXT_PUBLIC_ADMIN_ADDRESS;
 const admin = () => {
   const { address } = useAccount();
 
-  console.log("address", address);
+  // console.log("address", address);
 
   const [loader, setLoader] = useState(false);
   const [checkAdmin, setCheckAdmin] = useState(true);
@@ -36,7 +36,7 @@ const admin = () => {
       if (address?.toLowerCase() == ADMIN_ADDRESS?.toLowerCase()) {
         setCheckAdmin(false);
         const data = await CONTRACT_DATA(address);
-        console.log("data", data);
+        // console.log("data", data);
         setPoolDetails(data);
       }
 
@@ -47,6 +47,7 @@ const admin = () => {
   useEffect(() => {
     LOAD_DATA();
   }, []);
+
   return (
     <>
       <Header page={"admin"} />

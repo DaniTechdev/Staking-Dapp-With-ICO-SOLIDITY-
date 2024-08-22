@@ -53,6 +53,8 @@ export const contract = async () => {
       signer
     );
 
+    console.log("contractReader", contractReader);
+
     return contractReader;
   }
 };

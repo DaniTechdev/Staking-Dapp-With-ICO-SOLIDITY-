@@ -309,12 +309,14 @@ export async function createPool(pool) {
     //claims from contract oject//staking contract
     const contractObj = await contract();
 
-    const gasEstimation = await contractObj.gasEstimation.addPool(
+    const gasEstimation = await contractObj.estimateGas.addPool(
       _depositToken,
       _rewardToken,
       Number(_api),
       Number(_lockDays)
     );
+
+    console.log("gasEstimation", gasEstimation);
 
     const stakeTx = await contractObj.addPool(
       _depositToken,
@@ -326,7 +328,11 @@ export async function createPool(pool) {
       }
     );
 
+    console.log("stakeTx", stakeTx);
+
     const receipt = await stakeTx.wait();
+    console.log("receipt", receipt);
+
     notifySuccess(" Pool creation successfully completed");
 
     return receipt;

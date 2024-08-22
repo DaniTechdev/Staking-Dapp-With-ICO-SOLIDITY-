@@ -16,6 +16,8 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
     _lockDays: "",
   });
 
+  console.log("pool", pool);
+
   const poolArray = poolDetails?.poolInfoArray ?? [];
 
   const CALLING_FUNCTION = async (pool) => {
@@ -78,10 +80,10 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                     size={"6"}
                     type={"text"}
                     title={"APY % "}
-                    name={"rewardToken1"}
+                    name={"apy"}
                     placeholder={"APY"}
                     handleChange={(e) =>
-                      setPool({ ...pool, _apy: e.target.value })
+                      setPool({ ...pool, _api: e.target.value })
                     }
                   />
                   <InputField
@@ -91,7 +93,7 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                     name={"days1"}
                     placeholder={"days"}
                     handleChange={(e) =>
-                      setPool({ ...pool, _days: e.target.value })
+                      setPool({ ...pool, _lockDays: e.target.value })
                     }
                   />
 
