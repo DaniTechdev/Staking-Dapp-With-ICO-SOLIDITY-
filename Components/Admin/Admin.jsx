@@ -86,6 +86,7 @@ const Admin = ({
                 setLoader={setLoader}
                 setModifyPoolID={setModifyPoolID}
               />
+
               <ICOToken setLoader={setLoader} />
             </div>
           </div>

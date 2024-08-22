@@ -44,8 +44,6 @@ const admin = () => {
     }
   };
 
-  // console.log("poolDetails", poolDetails);
-
   useEffect(() => {
     LOAD_DATA();
   }, []);

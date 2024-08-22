@@ -57,19 +57,21 @@ const Token = ({ token }) => {
               </tr>
               <tr>
                 <td className="yellow">Explorer Token</td>
-                <a
-                  href={`${TOKEN_EXPLORER} ${TOKEN}`}
-                  style={{ marginLeft: "10px" }}
-                  target="_blank"
-                  className="header__profile"
-                >
-                  <i className="ti">
-                    <MdAdminPanelSettings />
-                  </i>
-                  <span>
-                    {token?.name} {token?.symbol}
-                  </span>
-                </a>
+                <td>
+                  <a
+                    href={`${TOKEN_EXPLORER} ${TOKEN}`}
+                    style={{ marginLeft: "10px" }}
+                    target="_blank"
+                    className="header__profile"
+                  >
+                    <i className="ti">
+                      <MdAdminPanelSettings />
+                    </i>
+                    <span>
+                      {token?.name} {token?.symbol}
+                    </span>
+                  </a>
+                </td>
               </tr>
             </tbody>
           </table>
