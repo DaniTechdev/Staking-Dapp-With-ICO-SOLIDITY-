@@ -59,8 +59,79 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                     type={"text"}
                     title={"stake Token Address"}
                     name={"depositedToken1"}
-                    placeholder={"addresss"}
+                    placeholder={"address"}
+                    handleChange={(e) =>
+                      setPool({ ...pool, _depositToken: e.target.value })
+                    }
                   />
+                  <InputField
+                    size={"12"}
+                    type={"text"}
+                    title={"Reward Token Address"}
+                    name={"rewardToken1"}
+                    placeholder={"address"}
+                    handleChange={(e) =>
+                      setPool({ ...pool, _rewardToken: e.target.value })
+                    }
+                  />
+                  <InputField
+                    size={"6"}
+                    type={"text"}
+                    title={"APY % "}
+                    name={"rewardToken1"}
+                    placeholder={"APY"}
+                    handleChange={(e) =>
+                      setPool({ ...pool, _apy: e.target.value })
+                    }
+                  />
+                  <InputField
+                    size={"6"}
+                    type={"text"}
+                    title={"Lock days "}
+                    name={"days1"}
+                    placeholder={"days"}
+                    handleChange={(e) =>
+                      setPool({ ...pool, _days: e.target.value })
+                    }
+                  />
+
+                  <ClickButton name={"Create Pool"} />
+                </div>
+              </div>
+
+              <div className="tab-pane fade" id="tab-f7" role="tabpanel">
+                <div className="row">
+                  <Title title={"All Pool"} />
+                  <div className="col-12">
+                    <div
+                      className="scrollable-div"
+                      style={{ overflowX: "scroll" }}
+                    >
+                      <table className="deals__table">
+                        <thead>
+                          <tr>
+                            <th>Stake Token</th>
+                            <th>Reward Token</th>
+                            <th>Deposit</th>
+                            <th>Pool ID</th>
+                            <th>Lock Days</th>
+                          </tr>
+                        </thead>
+
+                        <tbody>
+                          {poolArray.map((pool, index) => (
+                            <tr key={index}>
+                              <div className="deals__exchange">
+                                <span className="red">
+                                  {SHORTEN_ADDRESS(pool._depositTokenAddress)}
+                                </span>
+                              </div>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
