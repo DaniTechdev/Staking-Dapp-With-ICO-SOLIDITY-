@@ -77,8 +77,14 @@ const Notification = ({ notify, poolDetails, index }) => {
           </span>
         </div>
       </div>
+
+      <div className="deposit__profile">
+        <span>Token</span>
+        <p>{poolDetails?.rewardtoken.symbol}</p>
+      </div>
     </div>
   );
+  s;
 };
 
 export default Notification;
