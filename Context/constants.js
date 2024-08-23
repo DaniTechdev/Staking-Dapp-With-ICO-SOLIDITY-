@@ -15,7 +15,7 @@ const REWARD_TOKEN = process.env.NEXT_PUBLIC_REWARD_TOKEN;
 //UTILITY FUNCTION
 
 //function to convert any number to ETHER
-export function toETH(amount, decimals = 18) {
+export function toEth(amount, decimals = 18) {
   // const amountBN = BigNumber.from(amount);
 
   const toEth = ethers.utils.formatUnits(amount, decimals);
@@ -82,9 +82,9 @@ export const ERC20 = async (address, userAddress) => {
       name: await contractReader.name(),
       symbol: await contractReader.symbol(),
       address: await contractReader.address,
-      totalSupply: toETH(await contractReader.totalSupply()),
-      balance: toETH(await contractReader.balanceOf(userAddress)),
-      contractTokenBalance: toETH(
+      totalSupply: toEth(await contractReader.totalSupply()),
+      balance: toEth(await contractReader.balanceOf(userAddress)),
+      contractTokenBalance: toEth(
         await contractReader.balanceOf(STAKING_DAPP_ADDRESS)
       ),
     };

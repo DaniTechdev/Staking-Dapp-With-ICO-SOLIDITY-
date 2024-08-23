@@ -21,7 +21,7 @@ const notifyError = (msg) => toast.error(msg, { duration: 2000 });
 function CONVERT_TIMESTAMP_TO_READABLE(timestamp) {
   const date = new Date(timestamp * 1000);
 
-  const readableTime = data.toLocaleDateString("en-US", {
+  const readableTime = date.toLocaleDateString("en-US", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",

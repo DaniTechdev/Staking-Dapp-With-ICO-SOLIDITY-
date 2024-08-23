@@ -16,7 +16,7 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
     _lockDays: "",
   });
 
-  console.log("pool", pool);
+  // console.log("pool", pool);
 
   const poolArray = poolDetails?.poolInfoArray ?? [];
 
@@ -119,6 +119,7 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                             <th>Reward Token</th>
                             <th>Deposit</th>
                             <th>Pool ID</th>
+                            <th>APY</th>
                             <th>Lock Days</th>
                           </tr>
                         </thead>
@@ -129,9 +130,12 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                               <td>
                                 <div className="deals__exchange">
                                   <span className="red">
-                                    {SHORTEN_ADDRESS(pool.depositTokenAddress)}{" "}
-                                    &nbsp; & &nbsp; {pool.depositToken.symbol}
-                                    &nbsp; & &nbsp;
+                                    {pool.depositTokenAddress.slice(0, 8)}...
+                                    {pool.depositTokenAddress.slice(
+                                      pool.depositTokenAddress - 4
+                                    )}
+                                    &nbsp; &nbsp; {pool.depositToken.symbol}
+                                    &nbsp; &nbsp;
                                     <FaRegCopy
                                       onClick={() =>
                                         copyAddress(pool.depositTokenAddress)
@@ -143,9 +147,12 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                               <td>
                                 <div className="deals__exchange">
                                   <span className="red">
-                                    {SHORTEN_ADDRESS(pool.rewardTokenAddress)}{" "}
-                                    &nbsp; & &nbsp; {pool.rewardToken.symbol}
-                                    &nbsp; & &nbsp;
+                                    {pool.depositTokenAddress.slice(0, 8)}...
+                                    {pool.depositTokenAddress.slice(
+                                      pool.depositTokenAddress - 4
+                                    )}
+                                    &nbsp; &nbsp; {pool.rewardToken.symbol}
+                                    &nbsp; &nbsp;
                                     <FaRegCopy
                                       onClick={() =>
                                         copyAddress(pool.rewardTokenAddress)
@@ -157,7 +164,7 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                               <td>
                                 <div className="deals__text deals__text--green">
                                   {pool.depositedAmount}
-                                  &nbsp;{" "}
+                                  &nbsp;
                                   <span className="red">
                                     {pool.depositToken.symbol}
                                   </span>
@@ -168,30 +175,29 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
                               </td>
                               <td>
                                 <div className="deals__text deals__text--green">
-                                  {pool.apy}
+                                  {pool.apy}%
                                 </div>
                               </td>
                               <td>
                                 <div className="deals__text deals__text--sell">
                                   {pool.lockDays} days
                                 </div>
-
-                                <td>
-                                  <div className="deals__text deals__text--sell">
-                                    <a
-                                      className="header__profile"
-                                      data-bs-target="modal-apool"
-                                      type="button"
-                                      data-bs-toggle="modal"
-                                      onClick={() => setModifyPoolID(index)}
-                                    >
-                                      <i className="ti">
-                                        <FaEdit />
-                                      </i>
-                                      <span>Update APY</span>
-                                    </a>
-                                  </div>
-                                </td>
+                              </td>
+                              <td>
+                                <div className="deals__text deals__text--sell">
+                                  <a
+                                    className="header__profile"
+                                    data-bs-target="modal-apool"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    onClick={() => setModifyPoolID(index)}
+                                  >
+                                    <i className="ti">
+                                      <FaEdit />
+                                    </i>
+                                    <span>Update APY</span>
+                                  </a>
+                                </div>
                               </td>
                             </tr>
                           ))}
