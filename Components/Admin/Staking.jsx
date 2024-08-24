@@ -11,9 +11,10 @@ const Staking = ({ poolDetails, sweep, setLoader }) => {
     amount: "",
   });
 
+  console.log("poolDetails", poolDetails);
+
   const CALLING_FUNCTION_SWEEP = async (token) => {
     setLoader(true);
-    console.log("pool", pool);
     const receipt = await sweep(token);
 
     if (receipt) {
@@ -62,10 +63,14 @@ const Staking = ({ poolDetails, sweep, setLoader }) => {
                     type={"text"}
                     title={"Enter Amount "}
                     name={"amount3"}
-                    placeholder={`${poolDetails?.contractTokenBalance}`}
+                    placeholder={`${poolDetails?.contractTokenBalance} ${poolDetails?.depositedToken.symbol}`}
                     handleChange={(e) =>
                       setToken({ ...token, token: e.target.value })
                     }
+                  />
+                  <ClickButton
+                    name={"Withdraw"}
+                    handleClick={() => CALLING_FUNCTION_SWEEP(token)}
                   />
                 </div>
               </div>
