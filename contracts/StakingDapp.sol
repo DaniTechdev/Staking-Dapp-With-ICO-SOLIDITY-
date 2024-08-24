@@ -616,7 +616,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
 
     Notification[] public notifications;
 
-    ////CONTRACT FUNCTION
+    ////CONTRACT  FUNCTION
 
     function addPool(
         IERC20 _depositToken,
@@ -728,7 +728,7 @@ contract StakingDapp is Ownable, ReentrancyGuard {
         //gettijg the balance of the token we want to sweep using the ERC20 instance
         uint256 token_balance = IERC20(token).balanceOf(address(this));
 
-        require(amount <= token_balance, "Amount exceeds balance"); //checking to not withdraw more than token balance in the contract
+        require(amount <= token_balance, "Amount exceeds balance"); //checking to not withdraw more than token balance in the staking contract
         require(
             token_balance - amount >= depositedTokens[token],
             "Can't withdraw deposited tokens"

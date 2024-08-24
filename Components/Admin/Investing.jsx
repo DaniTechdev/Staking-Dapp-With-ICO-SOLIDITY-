@@ -21,7 +21,7 @@ const Investing = ({ poolDetails, sweep, address }) => {
             <div className="tab-content" id="tab-f1" role="tabpanel">
               <div className="row">
                 <div className="col-12">
-                  {poolDetails.notifications.map((notify, index) => (
+                  {poolDetails?.notifications.map((notify, index) => (
                     <Notification
                       index={index}
                       notify={notify}

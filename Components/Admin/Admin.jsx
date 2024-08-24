@@ -74,7 +74,7 @@ const Admin = ({
               <Staking
                 poolDetails={poolDetails}
                 sweep={sweep}
-                address={address}
+                setLoader={setLoader}
               />
               <Transfer
                 poolDetails={poolDetails}
