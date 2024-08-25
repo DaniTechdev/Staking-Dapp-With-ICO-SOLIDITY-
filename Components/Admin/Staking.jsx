@@ -11,14 +11,16 @@ const Staking = ({ poolDetails, sweep, setLoader }) => {
     amount: "",
   });
 
-  console.log("poolDetails", poolDetails);
+  // console.log("token", token);
+
+  // console.log("poolDetails", poolDetails);
 
   const CALLING_FUNCTION_SWEEP = async (token) => {
     setLoader(true);
     const receipt = await sweep(token);
 
     if (receipt) {
-      console.log("receipt", receipt);
+      // console.log("receipt", receipt);
       setLoader(false);
       window.location.reload();
     }
@@ -65,7 +67,7 @@ const Staking = ({ poolDetails, sweep, setLoader }) => {
                     name={"amount3"}
                     placeholder={`${poolDetails?.contractTokenBalance} ${poolDetails?.depositedToken.symbol}`}
                     handleChange={(e) =>
-                      setToken({ ...token, token: e.target.value })
+                      setToken({ ...token, amount: e.target.value })
                     }
                   />
                   <ClickButton

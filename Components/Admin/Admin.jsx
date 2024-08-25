@@ -20,8 +20,6 @@ const Admin = ({
   sweep,
   setModifyPoolID,
 }) => {
-  console.log("poolDetails", poolDetails);
-
   return (
     <div className="section">
       <div className="container">

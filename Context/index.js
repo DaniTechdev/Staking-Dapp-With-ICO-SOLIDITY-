@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
 import toast from "react-hot-toast";
+import { ethers } from "ethers";
 import {
   contract,
   tokenContract,
@@ -113,7 +114,7 @@ export async function CONTRACT_DATA(address) {
       for (let i = 0; i < length; i++) {
         const poolInfo = await contractObj.poolInfo(i);
 
-        console.log("poolInfo", poolInfo);
+        // console.log("poolInfo", poolInfo);
 
         const userInfo = await contractObj.userInfo(i, address); //this is the nested  mapping of the poolId(i) to the user
         const userReward = await contractObj.pendingReward(i, address);
@@ -140,12 +141,12 @@ export async function CONTRACT_DATA(address) {
           lastRewardAt: toEth(userInfo.lastRewardAt.toString()),
         };
 
-        console.log("pool", pool);
+        // console.log("pool", pool);
 
         poolInfoArray.push(pool);
       }
 
-      console.log("poolInfoArray", poolInfoArray);
+      // console.log("poolInfoArray", poolInfoArray);
 
       //lets get the total amount of token deposited by a single user in all the pool
       //since we looped using the user address then pushed it inside an array, note. We are still inside the user loop
@@ -257,9 +258,11 @@ export async function transferToken(amount, transferAddresss) {
       transferAmount
     );
 
-    await approveTx.wait();
+    const receipt = await approveTx.wait();
 
     notifySuccess("token transfered successfully");
+
+    return receipt;
   } catch (error) {
     console.log(error);
 
@@ -409,19 +412,28 @@ export async function sweep(tokenData) {
     //modifypool from contract oject//staking contract
     const contractObj = await contract();
 
-    const transferAmount = ethers.utils.parseEther(amount);
+    console.log("contractObj", contractObj);
 
-    const gasEstimation = await contractObj.gasEstimation.sweep(
+    const transferAmount = ethers.utils.parseEther(amount);
+    console.log();
+
+    const gasEstimation = await contractObj.estimateGas.sweep(
       token,
       transferAmount
     );
+
+    console.log("gasEstimation", gasEstimation);
 
     const data = await contractObj.sweep(token, transferAmount, {
       gasLimit: gasEstimation,
     });
 
+    console.log("data", data);
+
     const receipt = await data.wait();
     notifySuccess("sweep successfully completed");
+
+    console.log("receipt", receipt);
 
     return receipt;
   } catch (error) {
