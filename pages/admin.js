@@ -43,7 +43,7 @@ const admin = () => {
 
   useEffect(() => {
     LOAD_DATA();
-  }, []);
+  }, [address]);
 
   return (
     <>

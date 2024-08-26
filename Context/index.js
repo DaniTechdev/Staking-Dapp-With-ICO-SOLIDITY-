@@ -451,7 +451,7 @@ export const addTokenMetaMask = async (token) => {
     const tokenDecimals = await contract.decimals();
     const tokenAddress = await contract.address();
     const tokenSymbol = await contract.symbol();
-    const tokenImage = await TOKEN_LOGO;
+    const tokenImage = TOKEN_LOGO;
 
     try {
       const wasAdded = await window.ethereum.request({

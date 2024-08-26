@@ -100,24 +100,28 @@ export const LOAD_TOKEN_ICO = async () => {
     const contract = await TOKEN_ICO_CONTRACT();
     const tokenAddress = await contract.tokenAddress();
 
-    const tokenDetails = await contract.getTokenDetails();
-    const contractOwner = await contract.owner();
-    const soldTokens = await contract.soldTokens();
+    const ZERO_ADDRESSS = 0x0000000000000000000000000000000000000000;
 
-    const ICO_TOKEN = await TOKEN_ICO_ERC20();
+    if (tokenAddress != ZERO_ADDRESSS) {
+      const tokenDetails = await contract.getTokenDetails();
+      const contractOwner = await contract.owner();
+      const soldTokens = await contract.soldTokens();
 
-    const token = {
-      tokenBal: ethers.utils.formatEther(tokenDetails.balance.toString()),
-      name: tokenDetails.name,
-      symbol: tokenDetails.symbol,
-      tokenPrice: ethers.utils.formatEther(tokenDetails.supply.toString()),
-      tokenAddr: tokenDetails.tokenAddr,
-      owner: contractOwner.toLowerCase(),
-      soldTokens: soldTokens.toNumber(),
-      token: ICO_TOKEN,
-    };
+      const ICO_TOKEN = await TOKEN_ICO_ERC20();
 
-    return token;
+      const token = {
+        tokenBal: ethers.utils.formatEther(tokenDetails.balance.toString()),
+        name: tokenDetails.name,
+        symbol: tokenDetails.symbol,
+        tokenPrice: ethers.utils.formatEther(tokenDetails.supply.toString()),
+        tokenAddr: tokenDetails.tokenAddr,
+        owner: contractOwner.toLowerCase(),
+        soldTokens: soldTokens.toNumber(),
+        token: ICO_TOKEN,
+      };
+
+      return token;
+    }
   } catch (error) {
     console.log(error);
   }
