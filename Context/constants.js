@@ -110,6 +110,9 @@ export const LOAD_TOKEN_ICO = async () => {
       console.log("token Addresss", tokenAddress);
 
       const tokenDetails = await contract.getTokenDetails();
+
+      console.log("tokenDetails of LOAD_TOKEN_ICO", tokenDetails);
+
       const contractOwner = await contract.owner();
       const soldTokens = await contract.soldTokens();
 
@@ -120,7 +123,7 @@ export const LOAD_TOKEN_ICO = async () => {
         name: tokenDetails.name,
         symbol: tokenDetails.symbol,
         tokenPrice: ethers.utils.formatEther(
-          tokenDetails.tokenSalePrice.toString()
+          tokenDetails.tokenPrice.toString()
         ),
         tokenAddr: tokenDetails.tokenAddr,
         owner: contractOwner.toLowerCase(),

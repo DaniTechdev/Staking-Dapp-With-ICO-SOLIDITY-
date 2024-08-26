@@ -597,10 +597,10 @@ export const UPDATE_TOKEN_PRICE = async (_price) => {
 
     console.log("payAmount", payAmount);
 
-    const gasEstimation = await contract.estimateGas.updateTokenPrice(
+    const gasEstimation = await contract.estimateGas.updateTokenSalePrice(
       payAmount
     );
-    const transaction = await contract.updateTokenPrice(payAmount, {
+    const transaction = await contract.updateTokenSalePrice(payAmount, {
       gasLimit: gasEstimation,
     });
 
