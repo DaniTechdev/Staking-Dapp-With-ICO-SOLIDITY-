@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 
-const UpdateAPYModel = () => {
+import { IoMdClose } from "../ReactICON";
+
+const UpdateAPYModel = ({ setLoader, modifyPool, modifyPoolID }) => {
   return <div>UpdateAPYModel</div>;
 };
 
