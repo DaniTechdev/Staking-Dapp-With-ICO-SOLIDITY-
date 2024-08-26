@@ -72,7 +72,7 @@ export async function CONTRACT_DATA(address) {
 
       const notifications = await contractObj.getNotification();
 
-      console.log("notifications", notifications);
+      // console.log("notifications", notifications);
 
       const _notificationsArray = await Promise.all(
         notifications.map(
@@ -559,12 +559,21 @@ export const TOKEN_WIDTHRAW = async () => {
 export const UPDATE_TOKEN = async (_address) => {
   try {
     if (!_address) return notifyError("Data is missing");
-    const contract = await TOKEN_ICO_CONTRACT;
+    notifySuccess("Calling contract ...");
+
+    const contract = await TOKEN_ICO_CONTRACT();
+
+    // console.log("contract ICO contract", contract);
 
     const gasEstimation = await contract.estimateGas.updateToken(_address);
+
+    // console.log("gasEstimation", gasEstimation);
+
     const transaction = await contract.updateToken(_address, {
       gasLimit: gasEstimation,
     });
+
+    // console.log("transaction", transaction);
 
     const receipt = await transaction.wait();
 
@@ -580,10 +589,14 @@ export const UPDATE_TOKEN = async (_address) => {
 export const UPDATE_TOKEN_PRICE = async (_price) => {
   try {
     if (!_price) return notifyError("Data is missing");
+    notifySuccess("Calling contract ...");
 
-    const contract = await TOKEN_ICO_CONTRACT;
+    const contract = await TOKEN_ICO_CONTRACT();
 
     const payAmount = ethers.utils.parseUnits(_price.toString(), "ether");
+
+    console.log("payAmount", payAmount);
+
     const gasEstimation = await contract.estimateGas.updateTokenPrice(
       payAmount
     );

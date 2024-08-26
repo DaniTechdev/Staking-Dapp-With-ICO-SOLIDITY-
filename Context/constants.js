@@ -98,11 +98,17 @@ export const ERC20 = async (address, userAddress) => {
 export const LOAD_TOKEN_ICO = async () => {
   try {
     const contract = await TOKEN_ICO_CONTRACT();
+
+    console.log("tokenICO contract", contract);
+
     const tokenAddress = await contract.tokenAddress();
+    // const tokenAddress = "0xb9e34FFEe08675A16CFE0842a3A3D0A65e4E0DC5";
 
     const ZERO_ADDRESSS = 0x0000000000000000000000000000000000000000;
 
     if (tokenAddress != ZERO_ADDRESSS) {
+      console.log("token Addresss", tokenAddress);
+
       const tokenDetails = await contract.getTokenDetails();
       const contractOwner = await contract.owner();
       const soldTokens = await contract.soldTokens();
@@ -113,7 +119,9 @@ export const LOAD_TOKEN_ICO = async () => {
         tokenBal: ethers.utils.formatEther(tokenDetails.balance.toString()),
         name: tokenDetails.name,
         symbol: tokenDetails.symbol,
-        tokenPrice: ethers.utils.formatEther(tokenDetails.supply.toString()),
+        tokenPrice: ethers.utils.formatEther(
+          tokenDetails.tokenSalePrice.toString()
+        ),
         tokenAddr: tokenDetails.tokenAddr,
         owner: contractOwner.toLowerCase(),
         soldTokens: soldTokens.toNumber(),
@@ -140,6 +148,8 @@ export const TOKEN_ICO_CONTRACT = async () => {
         TokenICO.abi,
         signer
       );
+
+      // console.log("contractReader for token ICO", contractReader);
 
       return contractReader;
     }
@@ -173,9 +183,9 @@ export const TOKEN_ICO_ERC20 = async () => {
         name: await contractReader.name(),
         symbol: await contractReader.symbol(),
         decimals: await contractReader.decimals(),
-        supply: toETH(await contractReader.totalSupply()),
-        balance: toETH(await contractReader.balanceOf(userAddress)),
-        contractTokenBalance: toETH(nativeBalance.toString()),
+        supply: toEth(await contractReader.totalSupply()),
+        balance: toEth(await contractReader.balanceOf(userAddress)),
+        contractTokenBalance: toEth(nativeBalance.toString()),
       };
 
       return token;
