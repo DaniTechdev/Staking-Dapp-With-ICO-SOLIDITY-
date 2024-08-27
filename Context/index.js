@@ -380,7 +380,7 @@ export async function modifyPool(poolID, amount) {
     //modifypool from contract oject//staking contract
     const contractObj = await contract();
 
-    const gasEstimation = await contractObj.gasEstimation.modifyPool(
+    const gasEstimation = await contractObj.estimateGas.modifyPool(
       Number(poolID),
       Number(amount)
     );
