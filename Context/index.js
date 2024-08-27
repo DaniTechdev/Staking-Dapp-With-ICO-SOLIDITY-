@@ -487,7 +487,7 @@ export const addTokenMetaMask = async (token) => {
 export const BUY_TOKEN = async (amount) => {
   try {
     notifySuccess("calling ico contract");
-    const contract = await TOKEN_ICO_CONTRACT;
+    const contract = await TOKEN_ICO_CONTRACT();
 
     //get the details of the token the user wants to buy from the TOKEN ico contract
     const tokenDetails = await contract.getTokenDetails();
@@ -529,7 +529,7 @@ export const TOKEN_WIDTHRAW = async () => {
   try {
     notifySuccess("calling ico contract");
 
-    const contract = await TOKEN_ICO_CONTRACT;
+    const contract = await TOKEN_ICO_CONTRACT();
 
     //get the details of the token the user wants to buy from the TOKEN ico contract
     const tokenDetails = await contract.getTokenDetails();
