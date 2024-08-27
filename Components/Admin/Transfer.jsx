@@ -15,7 +15,7 @@ const Transfer = ({ poolDetails, transferToken, setLoader, address }) => {
     const receipt = await transferToken(amount, transferAddress);
 
     if (receipt) {
-      console.log("receipt", pool);
+      console.log("receipt", receipt);
       setLoader(false);
       window.location.reload();
     }

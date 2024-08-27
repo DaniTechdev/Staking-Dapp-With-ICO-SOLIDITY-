@@ -115,7 +115,6 @@ export const LOAD_TOKEN_ICO = async () => {
 
       const contractOwner = await contract.owner();
       const soldTokens = await contract.soldTokens();
-
       const ICO_TOKEN = await TOKEN_ICO_ERC20();
 
       const token = {
