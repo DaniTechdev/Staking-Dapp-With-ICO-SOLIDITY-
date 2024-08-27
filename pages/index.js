@@ -92,8 +92,12 @@ const index = () => {
       <WithdrawModal
         widthdraw={widthdraw}
         widthdrawPoolID={widthdrawPoolID}
-        address
+        address={address}
+        setLoader={setLoader}
+        claimReward={claimReward}
       />
+
+      <ICOSale setLoader={setLoader} />
     </>
   );
 };
