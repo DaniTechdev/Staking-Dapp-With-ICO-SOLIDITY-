@@ -446,10 +446,10 @@ export async function sweep(tokenData) {
 //ADD TOKEN TO METAMASK
 export const addTokenMetaMask = async (token) => {
   if (window.ethereum) {
-    const contract = await tokenContract;
+    const contract = await tokenContract();
 
     const tokenDecimals = await contract.decimals();
-    const tokenAddress = await contract.address();
+    const tokenAddress = await contract.address;
     const tokenSymbol = await contract.symbol();
     const tokenImage = TOKEN_LOGO;
 

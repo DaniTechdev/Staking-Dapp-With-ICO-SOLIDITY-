@@ -44,7 +44,7 @@ const index = () => {
     if (address) {
       setLoader(true);
       const data = await CONTRACT_DATA(address);
-      console.log("data", data);
+      // console.log("data", data);
 
       setPoolDetails(data);
 
