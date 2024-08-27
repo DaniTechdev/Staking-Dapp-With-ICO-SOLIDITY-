@@ -17,10 +17,10 @@ const ICOSale = ({ setLoader }) => {
     const loadToken = async () => {
       const token = await LOAD_TOKEN_ICO();
 
-      console.log("token", token);
+      // console.log("token", token);
 
       setTokenDetails(token);
-      console.log("tokenDetails", tokenDetails);
+      // console.log("tokenDetails", tokenDetails);
     };
 
     loadToken();
@@ -28,7 +28,7 @@ const ICOSale = ({ setLoader }) => {
 
   const CALLING_FUNCTION_BUY_TOKEN = async (quantity) => {
     setLoader(true);
-    console.log("quantity", quantity);
+    // console.log("quantity", quantity);
 
     const receipt = await BUY_TOKEN(quantity);
 

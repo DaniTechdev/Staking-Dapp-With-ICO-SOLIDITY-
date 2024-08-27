@@ -53,7 +53,7 @@ export const contract = async () => {
       signer
     );
 
-    console.log("contractReader", contractReader);
+    // console.log("contractReader", contractReader);
 
     return contractReader;
   }
@@ -99,7 +99,7 @@ export const LOAD_TOKEN_ICO = async () => {
   try {
     const contract = await TOKEN_ICO_CONTRACT();
 
-    console.log("tokenICO contract", contract);
+    // console.log("tokenICO contract", contract);
 
     const tokenAddress = await contract.tokenAddress();
     // const tokenAddress = "0xb9e34FFEe08675A16CFE0842a3A3D0A65e4E0DC5";
@@ -107,11 +107,11 @@ export const LOAD_TOKEN_ICO = async () => {
     const ZERO_ADDRESSS = 0x0000000000000000000000000000000000000000;
 
     if (tokenAddress != ZERO_ADDRESSS) {
-      console.log("token Addresss", tokenAddress);
+      // console.log("token Addresss", tokenAddress);
 
       const tokenDetails = await contract.getTokenDetails();
 
-      console.log("tokenDetails of LOAD_TOKEN_ICO", tokenDetails);
+      // console.log("tokenDetails of LOAD_TOKEN_ICO", tokenDetails);
 
       const contractOwner = await contract.owner();
       const soldTokens = await contract.soldTokens();

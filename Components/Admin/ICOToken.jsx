@@ -23,10 +23,10 @@ const ICOToken = ({ setLoader }) => {
     const loadToken = async () => {
       const token = await LOAD_TOKEN_ICO();
 
-      console.log("token", token);
+      // console.log("token", token);
 
       setTokenDetails(token);
-      console.log("tokenDetails", tokenDetails);
+      // console.log("tokenDetails", tokenDetails);
     };
 
     loadToken();
@@ -34,7 +34,7 @@ const ICOToken = ({ setLoader }) => {
 
   const CALLING_FUNCTION_UPDATE_TOKEN = async (updateToken) => {
     setLoader(true);
-    console.log("updateToken", updateToken);
+    // console.log("updateToken", updateToken);
     const receipt = await UPDATE_TOKEN(updateToken);
 
     if (receipt) {
@@ -46,7 +46,7 @@ const ICOToken = ({ setLoader }) => {
 
   const CALLING_FUNCTION_UPDATE_PRICE = async (updatePrice) => {
     setLoader(true);
-    console.log("updatePrice", updatePrice);
+    // console.log("updatePrice", updatePrice);
 
     const receipt = await UPDATE_TOKEN_PRICE(updatePrice);
 
@@ -68,7 +68,7 @@ const ICOToken = ({ setLoader }) => {
     }
     setLoader(false);
   };
-  console.log("tokenDetails", tokenDetails);
+  // console.log("tokenDetails", tokenDetails);
 
   return (
     <div className="tab-pane fade " id="tab-6" role="tabpanel">
