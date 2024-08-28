@@ -33,10 +33,12 @@ const HeroSection = ({ poolDetails, addTokenMetaMask }) => {
       const tokenTotalSupply =
         tokenDetails?.soldTokens + Number(tokenDetails?.tokenBal) * 1 ?? 1;
 
+      const percentageNew = (tokenSold / tokenTotalSupply) * 100;
+
       if (tokenTotalSupply == 0) {
         console.log("Token balance is zero, cannot calculate percentage");
       } else {
-        setPercentage(tokenTotalSupply);
+        setPercentage(percentageNew);
       }
     };
     const timer = setTimeout(calculatePercentage, 1000);
@@ -136,7 +138,7 @@ const HeroSection = ({ poolDetails, addTokenMetaMask }) => {
                   >
                     <div
                       className="progress-bar progress-bar-striped progress-bar-animated"
-                      style={{ width: `${percentage} %` }}
+                      style={{ width: `${percentage}%` }}
                     >
                       <span>{tokenDetails?.soldTokens}</span>
                     </div>
@@ -151,6 +153,10 @@ const HeroSection = ({ poolDetails, addTokenMetaMask }) => {
                       className="progressbar__value  
                     progressbar__value--right"
                     ></span>
+                    <span className="progressbar__value progresssbar__value--right">
+                      {Number(tokenDetails?.tokenBal || 0) +
+                        Number(tokenDetails?.soldTokens || 0)}
+                    </span>
                   </div>
                 </div>
               </div>
