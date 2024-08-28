@@ -248,7 +248,6 @@ const Pools = ({ setPoolID, setPoolDetails, poolDetails, setSelectedPool }) => {
             .slice(0, 3)}
         </div>
       </div>
-      s
     </div>
   );
 };
