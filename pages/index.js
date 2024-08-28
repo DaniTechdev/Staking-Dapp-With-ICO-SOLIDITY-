@@ -63,7 +63,7 @@ const index = () => {
         poolDetails={poolDetails}
         addTokenMetaMask={addTokenMetaMask}
       />
-      <Statistics setPoolDetails={setPoolDetails} />
+      <Statistics poolDetails={poolDetails} />
       <Pools
         setPoolDetails={setPoolDetails}
         poolDetails={poolDetails}
