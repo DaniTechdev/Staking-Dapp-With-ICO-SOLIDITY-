@@ -17,7 +17,7 @@ const Pool = ({ poolDetails, createPool, setLoader, setModifyPoolID }) => {
     _lockDays: "",
   });
 
-  // console.log("pool", pool);
+  console.log("pool", pool);
 
   const poolArray = poolDetails?.poolInfoArray ?? [];
 

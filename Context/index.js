@@ -65,7 +65,10 @@ export async function CONTRACT_DATA(address) {
 
     if (address) {
       const contractOwner = await contractObj.owner();
-      const contractAddress = await contractObj.address;
+
+      // console.log("contractObj from index", contractObj);
+
+      const contractAddress = contractObj.address;
 
       //NOTIFICATION
       //reading the data
@@ -132,7 +135,7 @@ export async function CONTRACT_DATA(address) {
           rewardToken: tokenPoolInfoB,
           depositedAmount: toEth(poolInfo.depositedAmount.toString()),
           apy: poolInfo.apy.toString(),
-          lockDays: poolInfo.apy.toString(),
+          lockDays: poolInfo.lockDays.toString(),
 
           //user
           amount: toEth(userInfo.amount.toString()),
@@ -156,6 +159,8 @@ export async function CONTRACT_DATA(address) {
 
       const rewardToken = await ERC20(REWARD_TOKEN, address);
       const depositedToken = await ERC20(DEPOSIT_TOKEN, address);
+
+      console.log("poolInfoArray from index context", poolInfoArray);
 
       const data = {
         contractOwner: contractOwner,
@@ -302,6 +307,8 @@ export async function widthdraw(poolID, amount) {
 
 export async function createPool(pool) {
   try {
+    console.log("pool from context", pool);
+
     const { _depositToken, _rewardToken, _api, _lockDays } = pool;
     //checking if all pool data are provided
     if (!_depositToken || !_rewardToken || !_api || !_lockDays)

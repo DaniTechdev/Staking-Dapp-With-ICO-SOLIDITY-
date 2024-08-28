@@ -33,7 +33,7 @@ const index = () => {
   const { address } = useAccount();
   const [loader, setLoader] = useState(false);
   const [contactUs, setContactUs] = useState(false);
-  const [poolID, setpoolID] = useState();
+  const [poolID, setPoolID] = useState();
   const [widthdrawPoolID, setwidthdrawPoolID] = useState();
 
   const [poolDetails, setPoolDetails] = useState();
@@ -65,6 +65,7 @@ const index = () => {
       />
       <Statistics poolDetails={poolDetails} />
       <Pools
+        setPoolID={setPoolID}
         setPoolDetails={setPoolDetails}
         poolDetails={poolDetails}
         setSelectedPool={setSelectedPool}
