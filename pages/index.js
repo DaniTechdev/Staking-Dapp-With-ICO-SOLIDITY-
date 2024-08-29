@@ -71,7 +71,8 @@ const index = () => {
         setSelectedPool={setSelectedPool}
       />
       <Token poolDetails={poolDetails} />
-      <widthdraw
+
+      <Withdraw
         setwidthdrawPoolID={setwidthdrawPoolID}
         poolDetails={poolDetails}
       />
