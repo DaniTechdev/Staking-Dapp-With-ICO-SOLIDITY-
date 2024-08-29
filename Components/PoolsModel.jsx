@@ -72,12 +72,12 @@ const PoolsModel = ({
                     ${selectedPool?.depositToken.symbol}`}
                   />
                   <InputRatio
-                    index={1}
+                    index={2}
                     value={`Total Deposited:  ${selectedPool?.depositedAmount} 
                     ${selectedPool?.depositToken.symbol}`}
                   />
                   <InputRatio
-                    index={1}
+                    index={3}
                     value={`My Balance:  ${selectedPool?.depositToken.balance.slice(
                       0,
                       8
@@ -86,7 +86,7 @@ const PoolsModel = ({
                   />
                 </ul>
               </div>
-
+              s
               <PupUpButton
                 title={"Proceed"}
                 handbleClick={() => CALLING_FUNCTION(poolID, amount, address)}
