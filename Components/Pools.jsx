@@ -2,7 +2,13 @@ import React from "react";
 
 import { MdOutlineAttachMoney, FaRegCopy } from "./ReactICON/index";
 
-const Pools = ({ setPoolID, setPoolDetails, poolDetails, setSelectedPool }) => {
+const Pools = ({
+  setPoolID,
+  setPoolDetails,
+  poolDetails,
+  setSelectedPool,
+  setSelectedToken,
+}) => {
   const poolArray = poolDetails?.poolInfoArray ?? [];
 
   console.log("poolArray", poolArray);
@@ -206,15 +212,7 @@ const Pools = ({ setPoolID, setPoolDetails, poolDetails, setSelectedPool }) => {
                     data-bs-toggle="modal"
                     onClick={() => (
                       setPoolID(
-                        index == 0
-                          ? 0
-                          : index == 1
-                          ? 1
-                          : index == 2
-                          ? 2
-                          : index
-                          ? 3
-                          : ""
+                        index == 0 ? 0 : index == 1 ? 1 : index == 2 ? 2 : ""
                       ),
                       setSelectedPool(pool),
                       setSelectedToken(pool)

@@ -37,7 +37,7 @@ const index = () => {
   const [widthdrawPoolID, setwidthdrawPoolID] = useState();
 
   const [poolDetails, setPoolDetails] = useState();
-  const [selectedToken, setSselectedToken] = useState();
+  const [selectedToken, setSelectedToken] = useState();
   const [selectedPool, setSelectedPool] = useState();
 
   const LOAD_DATA = async () => {
@@ -69,6 +69,7 @@ const index = () => {
         setPoolDetails={setPoolDetails}
         poolDetails={poolDetails}
         setSelectedPool={setSelectedPool}
+        setSelectedToken={setSelectedToken}
       />
       <Token poolDetails={poolDetails} />
 
@@ -100,6 +101,10 @@ const index = () => {
       />
 
       <ICOSale setLoader={setLoader} />
+
+      {contactUs && <Contact setContactUs={setContactUs} />}
+
+      {loader && <Loader />}
     </>
   );
 };

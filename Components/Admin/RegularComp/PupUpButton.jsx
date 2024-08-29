@@ -1,6 +1,6 @@
 import React from "react";
 
-const PupUpButton = () => {
+const PupUpButton = ({ title, handbleClick }) => {
   return <div>PupUpButton</div>;
 };
 
