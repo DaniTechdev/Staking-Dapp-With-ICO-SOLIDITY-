@@ -46,9 +46,8 @@ function parseErrorMsg(e) {
   return json?.reason || json?.error?.message;
 }
 
-export const SHORTEN_ADDRESS = (address) => {
+export const SHORTEN_ADDRESS = (address) =>
   `${address?.slice(0, 8)}...${address?.slice(address.length - 4)}`;
-};
 
 export const copyAddress = (text) => {
   navigator.clipboard.writeText(text);
@@ -75,37 +74,40 @@ export async function CONTRACT_DATA(address) {
 
       const notifications = await contractObj.getNotification();
 
-      // console.log("notifications", notifications);
+      console.log("notifications", notifications);
 
-      const _notificationsArray = await Promise.all(
-        notifications.map(
-          async ({ pooID, amount, user, typeOf, timestamp }) => {
-            return {
-              pooID: pooID.toNumber(),
-              amount: toEth(amount),
-              user: user,
-              typeOf: typeOf,
-              timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timestamp),
-            };
-          }
-        )
-      );
-      //OR
       // const _notificationsArray = await Promise.all(
-      //   notifications.map((notification) => {
-      //     const { poolID, amount, user, typeOf, timestamp } = notification;
-
-      //     const notificationData = {
-      //       poolID: poolID.toNumber(),
-      //       amount: toEth(amount),
-      //       user: user,
-      //       typeOf: typeOf,
-      //       timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timestamp),
-      //     };
-
-      //     return notificationData;
-      //   })
+      //   notifications.map(
+      //     async ({ pooID, amount, user, typeOf, timestamp }) => {
+      //       return {
+      //         pooID: pooID.toNumber(),
+      //         amount: toEth(amount),
+      //         user: user,
+      //         typeOf: typeOf,
+      //         timeStamp: CONVERT_TIMESTAMP_TO_READABLE(timestamp),
+      //       };
+      //     }
+      //   )
       // );
+
+      //OR
+      const _notificationsArray = await Promise.all(
+        notifications.map((notification) => {
+          const { poolID, amount, user, typeOf, timestamp } = notification;
+
+          const notificationData = {
+            poolID: poolID.toNumber(),
+            amount: toEth(amount),
+            user: user,
+            typeOf: typeOf,
+            timestamp: CONVERT_TIMESTAMP_TO_READABLE(timestamp),
+          };
+
+          return notificationData;
+        })
+      );
+
+      console.log("_notificationsArray", _notificationsArray);
 
       //POOL INFORMATION
       //reading the data
@@ -187,6 +189,8 @@ export async function CONTRACT_DATA(address) {
 
 //WRITING DATA FUNCTION
 export async function deposit(poolID, amount, address) {
+  console.log("poolID", "amount", "address", poolID, amount, address);
+
   try {
     notifySuccess("calling contract...");
 
@@ -220,7 +224,7 @@ export async function deposit(poolID, amount, address) {
     //we can calculate the gas we want to pay when we call a function to write on the blockchain
     //though they might have estimation for any function we want to call in the contract
 
-    const gasEstimation = await contractObj.gasEstimation.deposit(
+    const gasEstimation = await contractObj.estimateGas.deposit(
       Number(poolID),
       amountInWei
     ); //this will give the gas estimation the deposit function call will cost,

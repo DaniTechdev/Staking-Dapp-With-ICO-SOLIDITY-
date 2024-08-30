@@ -9,4 +9,3 @@ const PupUpButton = ({ title, handbleClick }) => {
 };
 
 export default PupUpButton;
-s;

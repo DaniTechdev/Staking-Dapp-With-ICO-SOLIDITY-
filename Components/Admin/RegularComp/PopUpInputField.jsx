@@ -10,7 +10,7 @@ const PopUpInputField = ({ title, placeholder, handleChange }) => {
         type="text"
         className="form__input"
         placeholder={placeholder}
-        handleChange={handleChange}
+        onChange={handleChange}
       />
     </div>
   );

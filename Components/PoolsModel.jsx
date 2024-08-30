@@ -20,7 +20,7 @@ const PoolsModel = ({
     const receipt = await deposit(poolID, amount, address);
 
     if (receipt) {
-      console.log("receipt", pool);
+      // console.log("receipt", pool);
       setLoader(false);
       window.location.reload();
     }
