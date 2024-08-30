@@ -34,7 +34,7 @@ const Admin = ({
                 role="tabpanel"
               >
                 <div className="row">
-                  {poolDetails?.poolInfoArray.map((pool, index) => (
+                  {poolDetails?.poolInfoArray?.map((pool, index) => (
                     <AdminCard
                       key={index}
                       name={`Current Apy: ${pool.apy} %`}
@@ -44,7 +44,7 @@ const Admin = ({
 
                   <AdminCard
                     name={`Total Stake`}
-                    value={`${poolDetails?.depositedAmount || "0"}  ${
+                    value={`${poolDetails?.totalDepositAmount || "0"}  ${
                       poolDetails?.depositedToken.symbol
                     }`}
                   />

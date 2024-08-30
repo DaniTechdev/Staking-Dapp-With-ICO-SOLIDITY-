@@ -48,11 +48,11 @@ const Notification = ({ notify, poolDetails, index }) => {
       </ul>
 
       <div
-        className={`progressbar progressbar----${
+        className={`progressbar progressbar--${
           index == 0 ? "orange" : index == 1 ? "green" : "blue"
         }`}
       >
-        <h3 className="progresssbar__title">Accrued{notify?.amount}%</h3>
+        <h3 className="progressbar__title">Accrued &nbsp; {notify?.amount}%</h3>
         <div
           className="progress"
           role="progressbar"
