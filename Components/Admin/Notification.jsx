@@ -80,7 +80,7 @@ const Notification = ({ notify, poolDetails, index }) => {
 
       <div className="deposit__profile">
         <span>Token</span>
-        <p>{poolDetails?.rewardtoken.symbol}</p>
+        <p>{poolDetails?.rewardToken.symbol}</p>
       </div>
     </div>
   );

@@ -72,7 +72,7 @@ const Withdraw = ({ setwidthdrawPoolID, poolDetails }) => {
 
                   <button
                     className="apool__btn"
-                    data-bs-target="#modal-nodes"
+                    data-bs-target="#modal-node"
                     type="button"
                     data-bs-toggle="modal"
                     onClick={() =>

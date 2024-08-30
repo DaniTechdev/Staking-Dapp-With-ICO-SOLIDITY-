@@ -288,12 +288,12 @@ export async function widthdraw(poolID, amount) {
     const contractObj = await contract();
 
     //estimate widthdrawal gas
-    const gasEstimation = await contractObj.gasEstimation.widthdraw(
+    const gasEstimation = await contractObj.estimateGas.withdraw(
       Number(poolID),
       amountInWei
     );
 
-    const data = await contractObj.widthdraw(Number(poolID), amountInWei, {
+    const data = await contractObj.withdraw(Number(poolID), amountInWei, {
       gasLimit: gasEstimation,
     });
 
@@ -364,7 +364,7 @@ export async function claimReward(poolID) {
     //claims from contract oject//staking contract
     const contractObj = await contract();
 
-    const gasEstimation = await contractObj.gasEstimation.claimReward(
+    const gasEstimation = await contractObj.estimateGas.claimReward(
       Number(poolID)
     );
 

@@ -57,9 +57,7 @@ const Notification = ({ poolDetails, page }) => {
                               &nbsp; &nbsp;{" "}
                               <FaRegCopy
                                 onClick={() =>
-                                  copyAddress(
-                                    poolDetails?.rewardToken.addressss
-                                  )
+                                  copyAddress(poolDetails?.rewardToken.address)
                                 }
                               />
                             </span>
